@@ -1,0 +1,20 @@
+[
+    {
+        "paymentMethodId": "pm_card_visa",
+        "amount": 1000,
+        "currency": "inr",
+        "paymentType": "card"
+    },
+    {
+        "paymentMethodId": "pm_upi",
+        "amount": 1000,
+        "currency": "inr",
+        "paymentType": "upi"
+    },
+    {
+        "paymentMethodId": "pm_netbanking",
+        "amount": 1000,
+        "currency": "inr",
+        "paymentType": "netbanking"
+    }
+]

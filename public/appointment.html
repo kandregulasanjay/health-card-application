@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select, input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            border: 1px solid #333;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            align-items: center;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p#message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Schedule an Appointment</h1>
+    </header>
+    <div class="container">
+        <form id="appointment-form" action="/api/appointment" method="POST" class="form-container">
+            <h2>Appointment Details</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="dentist">Dentist</option>
+                        <option value="checkup">General Medical checkup</option>
+                        <option value="neurology">Neurology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hospital">Hospital:</label>
+                    <select id="hospital" name="hospital" required>
+                        <option value="" disabled selected>Select Hospital</option>
+                        <option value="hospital-A">Hospital-A</option>
+                        <option value="hospital-B">Hospital-B</option>
+                        <option value="hospital-C">Hospital-C</option>
+                        <option value="hospital-D">Hospital-D</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <select id="state" name="state" required>
+                        <option value="" disabled selected>Select your state</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district">District:</label>
+                    <select id="district" name="district" required>
+                        <option value="" disabled selected>Select your district</option>
+                        <!-- District options will be populated based on the state selection -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" value="India" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes:</label>
+                    <textarea id="notes" name="notes"></textarea>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+            <p id="message"></p>
+        </form>
+    </div>
+    <script>
+        const districtsByState = {
+            "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna"],
+            "Karnataka": ["Bangalore Urban", "Bangalore Rural", "Chikballapur", "Chitradurga", "Dakshina Kannada"],
+            "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"]
+        };
+
+        document.getElementById('state').addEventListener('change', function () {
+            const state = this.value;
+            const districtSelect = document.getElementById('district');
+
+            // Clear previous district options
+            districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
+
+            // Populate new district options
+            if (districtsByState[state]) {
+                districtsByState[state].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('appointment-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const department = document.getElementById('department').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const notes = document.getElementById('notes').value;
+            const hospital = document.getElementById('hospital').value;
+            const message = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/appointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        date,
+                        time,
+                        department,
+                        country,
+                        state,
+                        district,
+                        notes,
+                        hospital
+                    })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    message.textContent = 'Appointment scheduled successfully!';
+                    message.style.color = 'green';
+                    document.getElementById('appointment-form').reset();
+                } else {
+                    const responseData = await response.json();
+                    message.textContent = responseData.message || 'Failed to schedule appointment';
+                    message.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = 'An error occurred';
+                message.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 20px 0;
+      scroll-behavior: smooth;
+    }
+
+    #profilePage {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 80%;
+      max-width: 600px;
+      margin: 20px 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .profile-info {
+      margin-bottom: 20px;
+    }
+
+    #discountCard {
+      background: url('assets/medical-card.jpg');
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: white;
+      padding: 20px;
+      width: 80%;
+      max-width: 400px;
+      margin-top: 30px;
+      margin-left: 20px;
+    }
+
+    #discountCard h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+
+    .cardInfo {
+      margin-bottom: 4px;
+    }
+
+    .cardInfo p {
+      margin: 5px 0;
+    }
+
+    #cardContent {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cardNumber {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .cardName {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .validity {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4A90E2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ABD;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="profilePage">
+    <h1>Profile</h1>
+    <div class="profile-info">
+      <p id="profileName"><strong>Name:</strong></p>
+      <p id="profileEmail"><strong>Email:</strong></p>
+      <p id="profileGender"><strong>Gender:</strong></p>
+      <p id="profileDob"><strong>Date of Birth:</strong></p>
+      <p id="profileGovernmentID"><strong>Government ID:</strong></p>
+      <p id="profileGovernmentIDNumber"><strong>Government ID Number:</strong></p>
+      <p id="profileCouponNumber"><strong>Discount Coupon Number:</strong></p>
+      <p id="profileCouponValidityDate"><strong>Discount Card Validity:</strong></p>
+    </div>
+    <div id="discountCard">
+      <div id="cardContent">
+        <h2>Medical Card</h2>
+
+        <div class="cardInfo">
+          <p class="cardName" id="cardName">Cardholder Name</p>
+        </div>
+        <div class="cardInfo">
+          <p class="cardDob" id="cardDob">Cardholder DOB</p>
+        </div>
+        <div class="cardInfo">
+          <p class="validity" id="validityDate">Validity: MM/YY</p>
+        </div>
+        <div class="cardInfo">
+          <p class="cardNumber" id="cardNumber">#### #### #### ####</p>
+        </div>
+      </div>
+    </div>
+    <button onclick="downloadCard()">Download Discount Card</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+  <script>
+    async function fetchUserData(email) {
+      try {
+        const response = await fetch(`/api/user/${encodeURIComponent(email)}`);
+        if (!response.ok) {
+          throw new Error('User not found');
+        }
+        const userData = await response.json();
+        return userData;
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        return null;
+      }
+    }
+
+    async function displayUserProfile() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+
+      if (email) {
+        const userData = await fetchUserData(email);
+        if (userData) {
+          // Update profile details with user data
+          document.getElementById('profileName').innerText = `Full Name: ${userData.name}`;
+          document.getElementById('profileEmail').innerText = `E-mail: ${userData.email}`;
+          document.getElementById('profileGender').innerText = `Gender: ${userData.gender}`;
+          document.getElementById('profileDob').innerText = `Date of Birth: ${userData.dob}`;
+          document.getElementById('profileGovernmentID').innerText = `Government ID: ${userData.governmentID}`;
+          document.getElementById('profileGovernmentIDNumber').innerText = `Government ID Number: ${userData.governmentIDNumber}`;
+          document.getElementById('profileCouponNumber').innerText = `Discount Coupon Number: ${userData.couponNumber}`;
+          document.getElementById('profileCouponValidityDate').innerText = `Discount Card Validity: ${formatValidityDate(userData.couponValidityDate)}`;
+
+          // Update the discount card with user data
+          document.getElementById('cardNumber').innerText = userData.couponNumber;
+          document.getElementById('cardName').innerText = `Name: ${userData.name}`;
+          document.getElementById('cardDob').innerText = `Date of Birth: ${userData.dob}`;
+          document.getElementById('validityDate').innerText = `Card Validity: ${formatValidityDate(userData.couponValidityDate)}`;
+        } else {
+          console.error('User data not found.');
+        }
+      } else {
+        console.error('Email parameter missing in URL.');
+      }
+    }
+
+    function formatValidityDate(fullDate) {
+      const dateObj = new Date(fullDate);
+      const month = dateObj.toLocaleString('default', { month: 'short' });
+      const year = dateObj.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+      return `${month.toUpperCase()} ${year}`;
+    }
+
+    function downloadCard() {
+      // Ensure the details are updated before capturing the canvas
+      setTimeout(() => {
+        html2canvas(document.getElementById('discountCard')).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'discount-card.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      }, 500); // Adjust the delay if necessary
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      displayUserProfile();
+    });
+  </script>
+</body>
+
+</html>

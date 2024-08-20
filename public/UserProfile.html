@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 20px 0;
+      scroll-behavior: smooth;
+    }
+
+    #profilePage {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 80%;
+      max-width: 600px;
+      margin: 20px 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .profile-info {
+      margin-bottom: 20px;
+    }
+
+    #discountCard {
+      background: url('assets/medical-card.jpg');
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: white;
+      padding: 20px;
+      width: 80%;
+      max-width: 400px;
+      margin-top: 30px;
+      margin-left: 20px;
+    }
+
+    #discountCard h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      text-decoration: underline;
+    }
+
+    .cardInfo {
+      margin-bottom: 4px;
+    }
+
+    .cardInfo p {
+      margin: 5px 0;
+    }
+
+    #cardContent {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cardNumber {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .cardName {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .validity {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4A90E2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ABD;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="profilePage">
+    <h1>Profile</h1>
+    <div class="profile-info">
+        <h1>Welcome to Your Profile</h1>
+        <p>Name: <span id="profileName"></span></p>
+        <p>Email: <span id="profileEmail"></span></p>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const token = localStorage.getItem('token'); // Fetch the stored token
+    
+        if (!token) {
+            alert('No token found, please log in first');
+            window.location.href = '/UserLogin'; // Redirect to login if no token
+        } else {
+            try {
+                const response = await fetch('/api/user/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+    
+                const data = await response.json();
+    
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to fetch profile data');
+                }
+    
+                // Display the profile data
+                document.getElementById('profileName').textContent = data.user.name;
+                document.getElementById('profileEmail').textContent = data.user.email;
+                // Add other fields as necessary
+            } catch (error) {
+                console.error('Error fetching profile data:', error);
+                alert('Failed to load profile data. Please try again.');
+            }
+        }
+    });
+    
+  </script>
+</body>
+
+</html>

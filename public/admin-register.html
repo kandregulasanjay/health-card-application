@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration/Login</title>
+    <style>
+        body {
+            background-image: url(assets/admin-bg.png);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #f0f0f0;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 80px;
+            /* Adjust as needed */
+        }
+
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            margin-left: 40px;
+        }
+
+        form {
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+        }
+
+        form h2 {
+            margin-bottom: 20px;
+        }
+        select,
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Hospital Admin</div>
+        <nav>
+            <ul>
+                <li><a href="/admin.html">Admin</a></li>
+                <li><a href="/welcome.html">Welcome</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="cards">
+        <div class="container">
+            <form class="register-form" id="register-form">
+                <h2>Admin Register</h2>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <select id="hospital" name="hospital" required >
+                    <option value="" disabled selected>Hospital Name</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+                <p id="register-message"></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {
+                username: formData.get('username'),
+                password: formData.get('password'),
+                email: formData.get('email'),
+                hospital: formData.get('hospital'),
+            };
+            try {
+                const response = await fetch('/admin/admin-register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const message = document.getElementById('register-message');
+                if (response.ok) {
+                    const responseData = await response.json();
+                    message.textContent = responseData.message || 'Successfully registered!';
+                    message.style.color = 'green';
+                    
+                    window.location.href = '/admin.html?hospital=${data.hospital}';
+                } else {
+                    const responseData = await response.json();
+                    message.textContent = responseData.message || 'Registration failed';
+                    message.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = 'An error occurred';
+                message.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+
+</html>

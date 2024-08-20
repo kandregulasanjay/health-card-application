@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Registrations</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Admin Registrations</h1>
+  <table id="adminTable">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Username</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be inserted here dynamically -->
+    </tbody>
+  </table>
+
+  <script>
+   /* document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('/api/admin/admins');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const admins = await response.json();
+
+        const tableBody = document.getElementById('adminTable').querySelector('tbody');
+        admins.forEach(admin => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${admin.username}</td>
+            <td>${admin.email}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching admin data:', error);
+      }
+    });*/
+    document.addEventListener('DOMContentLoaded', async () => {
+      const tableBody = document.getElementById('adminTable').querySelector('tbody');
+      const emailFilter = document.getElementById('emailFilter');
+      const totalCountElement = document.getElementById('totalCount');
+      
+      // Function to fetch admin data
+      const fetchAdminData = async () => {
+        try {
+          const response = await fetch('/api/admin/admins'); // Adjust URL if necessary
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const admins = await response.json();
+
+          // Clear previous table rows
+          tableBody.innerHTML = '';
+
+          // Populate table with admin data
+          admins.reverse().forEach((admin, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${index + 1}</td> <!-- Serial number starts from 1 -->
+              <td>${admin.username}</td>
+              <td>${admin.email}</td>
+            `;
+            tableBody.appendChild(row); // Append new data at the bottom
+          });
+
+          // Update total count
+          totalCountElement.textContent = `Total Count: ${admins.length}`;
+        } catch (error) {
+          console.error('Error fetching admin data:', error);
+        }
+      };
+
+      // Initial fetch
+      fetchAdminData();
+
+      // Event listener for email filter
+      emailFilter.addEventListener('input', async () => {
+        const filterValue = emailFilter.value.toLowerCase();
+        try {
+          const response = await fetch('/api/admin/admins'); // Adjust URL if necessary
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const admins = await response.json();
+
+          // Filter admins by email
+          const filteredAdmins = admins.filter(admin => admin.email.toLowerCase().includes(filterValue));
+
+          // Clear previous table rows
+          tableBody.innerHTML = '';
+
+          // Populate table with filtered admin data
+          filteredAdmins.reverse().forEach((admin, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${index + 1}</td> <!-- Serial number starts from 1 -->
+              <td>${admin.username}</td>
+              <td>${admin.email}</td>
+            `;
+            tableBody.appendChild(row); // Append new data at the bottom
+          });
+
+          // Update total count
+          totalCountElement.textContent = `Total Count: ${filteredAdmins.length}`;
+        } catch (error) {
+          console.error('Error fetching admin data:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

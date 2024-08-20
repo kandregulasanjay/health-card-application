@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Card</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Outfit:wght@100..900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Outfit;
+        }
+
+        /* Sidebar Styles */
+
+        .sidebar {
+            width: 20%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #092415;
+            color: #c59d55;
+            padding: 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar .top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar .top .user-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .sidebar .top .profile-details {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-decoration: underline;
+        }
+
+        .sidebar .bottom {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sidebar .bottom-item {
+            margin-right: 10px;
+        }
+
+        .sidebar .bottom-item img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .sidebar .bottom-item img:hover {
+            color: #fff;
+        }
+
+        /* Header Styles */
+
+        header {
+            width: 80%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header .navbar #usernameContainer {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #337ab7;
+        }
+
+        header .navbar #menu-toggler {
+            display: none;
+        }
+
+        header .navbar #hamburger-btn {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        header .navbar .all-links {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header .navbar .all-links li {
+            margin-right: 20px;
+            list-style: none;
+        }
+
+        header .navbar .all-links li a {
+            font-size: 16px;
+            color: #092415;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header .navbar .all-links li a:hover {
+            color: #c59d55;
+        }
+
+        .navbar .logo a {
+            display: flex;
+            align-items: center;
+            margin-left: 0;
+        }
+
+        /* Homepage Styles */
+
+        .homepage {
+            width: 80%;
+            height: 100vh;
+            background: url("assets/admin-bg.png");
+            background-position: center 100%;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #092415;
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .Card {
+            height: 225px;
+            width: 350px;
+            background-color: #092415;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c59d55;
+            border-radius: 25px;
+        }
+
+
+        .Card .front-face {
+            width: 100%;
+            padding: 25px;
+        }
+
+
+        .front-face .logo img {
+            width: 50px;
+            margin-right: 100px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .front-face .mscard {
+            width: 50px;
+        }
+
+
+        .front-face header,
+        .front-face .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .front-face header {
+            justify-content: space-between;
+        }
+
+        .front-face .Card-details {
+            margin-top: 40px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+
+        h6 {
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+
+        h5.Number {
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+
+        h5.cardName {
+            margin-top: 20px;
+        }
+
+        h5.cardDob {
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+
+        #cardContent button {
+            background-color: #337ab7;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #cardContent {
+            text-align: center;
+
+        }
+
+        .cardInfo {
+            margin-bottom: 10px;
+        }
+
+        .text {
+            text-align: center;
+        }
+
+        .text h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .text a {
+            background-color: #c59d55;
+            color: #092415;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Appointment Form Styles */
+
+        #appointment {
+            width: 80%;
+            background-color: #ffffff;
+            color: #092415;
+            padding: 20px;
+        }
+
+        #appointment .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border: 2px solid #c59d55;
+            color: #092415;
+        }
+
+        #appointment .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        #appointment label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        #appointment .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            gap: 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            border-left-color: #c59d55;
+            border-left-width: 3px;
+            border-left-style: solid;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        #appointment .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        #appointment select,
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            border: 1px solid #c59d55;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            gap: 20px;
+        }
+
+        #appointment textarea {
+            resize: vertical;
+        }
+
+        #appointment button[type="submit"] {
+            align-items: center;
+            background-color: #c59d55;
+            border: none;
+            color: #092415;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        #appointment button[type="submit"]:hover {
+            background-color: #654321;
+            color: #f5f5dc;
+        }
+
+        #message p {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Services Styles */
+
+        #services {
+            width: 80%;
+            padding: 20px;
+        }
+
+        #services li {
+            list-style: none;
+        }
+
+        #services .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        #services .card {
+            width: calc(33.33% - 20px);
+            margin: 10px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px solid #c59d55;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #services .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px 5px 0 0;
+        }
+
+        #services .card h3 {
+            margin-bottom: 10px;
+        }
+
+        #services .card p {
+            color: #666;
+        }
+
+        /* About Us Styles */
+
+        #about {
+            width: 80%;
+            padding: 20px;
+        }
+
+        #about p {
+            padding: 0 20px;
+        }
+
+        #about .company-info {
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+
+        #about .mission-vision {
+            margin-bottom: 20px;
+        }
+
+        #about .team {
+            margin-bottom: 20px;
+        }
+
+        #about .row-team li {
+            list-style: none;
+        }
+
+        #about h3 {
+            margin-bottom: 10px;
+        }
+
+        #about p {
+            color: #666;
+        }
+
+        /*explanation style*/
+        .explanation {
+            padding: 20px;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .explanation-top h1 {
+            font-size: 32px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        .explanation-top p {
+            font-size: 18px;
+        }
+
+        .explanation-col {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .explanation-left {
+            margin: 0 auto;
+        }
+
+        .explanation-right {
+            flex-basis: 60%;
+            padding-left: 20px;
+        }
+
+        .explanation-right h1 {
+            margin-bottom: 20px;
+        }
+
+        .explanation-right p {
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        /*benefits style*/
+        .benefits {
+            width: 80%;
+            padding: 20px;
+        }
+
+        .benefits-heading {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .benefits-para {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .benefits-col {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .benefits-rows {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .benefits-content {
+            flex-basis: 25%;
+            margin: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            border: 2px solid #c59d55;
+            border-radius: 10px;
+        }
+
+        .benefits-content h1 {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .benefits-content p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .benefits-rows {
+                flex-direction: column;
+            }
+
+            .benefits-content {
+                flex-basis: 100%;
+                margin: 20px 0;
+            }
+        }
+
+        /*faq style*/
+        .faqs {
+            padding: 20px;
+            width: 80%;
+        }
+
+        .faqs h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .faq {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .faq h2 {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .faq .answer {
+            display: none;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .faq .answer p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .faq .answer.show {
+            display: block;
+        }
+
+        /*footer style*/
+
+        footer {
+            background-color: #092415;
+            padding: 20px 0;
+            width: 80%;
+            padding: 0 20px 10px;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-left,
+        .footer-right {
+            width: 48%;
+        }
+
+        .footer-top,
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-top div {
+            width: 50%;
+        }
+
+        .footer-header {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #c59d55;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-services li {
+            list-style: circle;
+            color: #c59d55;
+        }
+
+        .footer-contact {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-contact .footer-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-para {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .contact-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #092415;
+        }
+
+        .contact-row div {
+            width: 48%;
+        }
+
+        .contact-row input,
+        .contact-row select,
+        .contact-row button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #092415;
+        }
+
+        .contact-row button {
+            background-color: #c59d55;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .contact-row button:hover {
+            background-color: #b58842;
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .footer-right h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .footer-right p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .footer-right button {
+            width: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #c59d55;
+            color: white;
+            cursor: pointer;
+        }
+
+        .footer-right button:hover {
+            background-color: #b58842;
+        }
+
+        .footer-bottom span {
+            font-size: 12px;
+        }
+
+        .footer-bottom .link a {
+            margin-right: 10px;
+            color: #c59d55;
+            text-decoration: none;
+        }
+
+        .footer-bottom .link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom .link {
+            float: right;
+        }
+
+        /* Styles for screens less than 400px */
+@media only screen and (max-width: 399px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 10px;
+    }
+
+    header {
+        width: 100%;
+    }
+
+    .homepage {
+        width: 100%;
+        height: auto;
+        background-position: center top;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .Card {
+        width: 100%;
+    }
+
+    .form-container,
+    #services .card,
+    #about p,
+    .benefits-content,
+    .faq,
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+/* Styles for screens between 400px and 899px */
+@media only screen and (min-width: 400px) and (max-width: 899px) {
+    .sidebar {
+        width: 50%;
+        height: auto;
+        position: relative;
+    }
+
+    header {
+        width: 100%;
+    }
+
+    .homepage {
+        width: 100%;
+        height: auto;
+        background-position: center top;
+    }
+
+    .content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .Card {
+        width: 100%;
+    }
+
+    .form-container,
+    #services .card,
+    #about p,
+    .benefits-content,
+    .faq,
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .footer-top,
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Styles for screens between 900px and 1199px */
+@media only screen and (min-width: 900px) and (max-width: 1199px) {
+    .sidebar {
+        width: 30%;
+    }
+
+    header {
+        width: 70%;
+    }
+
+    .homepage {
+        width: 70%;
+    }
+
+    .Card {
+        width: 70%;
+    }
+
+    .form-container,
+    #services .card,
+    #about p,
+    .benefits-content,
+    .faq,
+    .footer-left,
+    .footer-right {
+        width: 48%;
+        margin: 15px 1%;
+    }
+
+    .footer-top,
+    .footer-bottom {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="top">
+            <!--<img class="user-icon" src="./assets/menu_icon.png" alt="User Icon">-->
+            <div class="profile">
+                <p class="profile-details" style="text-align: center;">Profile</p>
+                <div class="profile-info">
+                    <div id="photo" style="width: 40px; height:40px; border-radius:50px;"></div>
+                    <p style="color: #fff; font-size:14px;">Name:</p>
+                    <p id="profileName"><strong>Name:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">Email:</p>
+                    <p id="profileEmail"><strong>Email:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">Gender:</p>
+                    <p id="profileGender"><strong>Gender:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">DOB:</p>
+                    <p id="profileDob"><strong>Date of Birth:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">ID Proof:</p>
+                    <p id="profileGovernmentID"><strong>Government ID:</strong></p><br>
+                    <p style="color: #fff;font-size:14px;">ID Number:</p>
+                    <p id="profileGovernmentIDNumber"><strong>Government ID Number:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">Medical Card Number:</p>
+                    <p id="profileCouponNumber"><strong>Medical Card Number:</strong></p><br>
+                    <p style="color: #fff; font-size:14px;">Medical Card Validity:</p>
+                    <p id="profileCouponValidityDate"><strong>Card Validity:</strong></p><br>
+                    <button onclick="downloadCard()"
+                        style="background-color: #c59d55; color:#092415; padding:5px 10px; cursor:pointer;">Download
+                        Card</button>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="bottom-item">
+                <img src="./assets/fb.png" alt="facebook">
+            </div>
+            <div class="bottom-item">
+                <img src="./assets/instagram.png" alt="instagram">
+            </div>
+            <div class="bottom-item">
+                <img src="./assets/linkedin.png" alt="Linkedin">
+            </div>
+            <div class="bottom-item">
+                <img src="./assets/twitter.png" alt="Twitter">
+            </div>
+        </div>
+    </div>
+    <header>
+        <nav class="navbar">
+            <div id="usernameContainer" style="color: rgb(0, 0, 0); font-weight:700; letter-spacing:1px;"></div>
+            <input type="checkbox" id="menu-toggler">
+            <label for="menu-toggler" id="hamburger-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 18h18v-2H3v2zm0-5h18V11H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </label>
+            <ul class="all-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#appointment">Appointment</a></li>
+                <li><a href="#faqs">FAQ</a></li>
+                <li><a href="/login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="homepage" id="home">
+        <div class="content">
+            <div class="Card" id="discountCard">
+                <div class="front-face">
+                    <h1 style="text-align:center; margin-bottom:-10px">Health Card</h1>
+                    <div class="Card-details">
+                        <div class="name-number">
+                            <h6>Card Number</h6>
+                            <h5 class="cardNumber" id="cardNumber">2547 0080 9861 0000</h5>
+                            <h5 class="cardName" id="cardName">George Kingi</h5>
+                            <h5 class="cardDob" id="cardDob">MM/YY</h5>
+                        </div>
+                        <div>
+                            <h6>Validity</h6>
+                            <h5 class="validity" id="validityDate">25/03</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text">
+                <h1>GET YOUR APPOINTMENT NOW</h1>
+                <p>Discover top-quality Hospitals near you <br> Avail your Digital Discount Card now! </p>
+                <a href="#appointment">Appointment</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="explanation" id="explanation">
+        <div class="explanation-top">
+            <h1>What is health Card or Health ID Card?</h1>
+            <p>
+                Explanation of the health card details in a unique way.
+                Introducing the Health Card, Your Key to Seamless Healthcare
+                Imagine having a single card that unlocks a world of healthcare possibilities. The health card, also
+                known as the Health ID Card, is a revolutionary digital tool that empowers you to take control of
+                your health journey.
+            </p>
+        </div>
+        <div class="explanation-col">
+            <div class="explanation-left">
+                <div class="Card">
+                    <div class="front-face">
+                        <h1 style="text-align:center; margin-bottom:-10px">Health Card</h1>
+                        <div class="Card-details">
+                            <div class="name-number">
+                                <h6>Card Number</h6>
+                                <h5 class="cardNumber" id="cardNumber">xxxx xxxx xxx 0000</h5>
+                                <h5 class="cardName" id="cardName">George Kingi</h5>
+                                <h5 class="cardDob" id="cardDob">MM/YY</h5>
+                            </div>
+                            <div>
+                                <h6>Validity</h6>
+                                <h5 class="validity" id="validityDate">JUL 30</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="explanation-right">
+                <h1>Unique Health ID: A 16-Digit Code to Unlock Your Health Records</h1>
+                <p>At the heart of the health card is a unique 16-digit Health ID number, known as the ABHA number. This
+                    identifier ensures that your health records are secure, up-to-date, and accessible across multiple
+                    healthcare providers.</p>
+                <h1>Health Address: Your Personalized Username</h1>
+                <p>When you register for your health card, you'll create a self-declared username, known as your health
+                    address. This is similar to an email address and serves as your login credentials for the Health
+                    Information Exchange and consent manager.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="benefits" id="benefits">
+        <h1 class="benefits-heading">What are the benefits of health card?</h1>
+        <p class="benefits-para"> Health cards provide easy access to medical services and reduce healthcare costs. Here
+            are key benefits:</p>
+        <div class="benefits-col">
+            <div class="benefits-rows">
+                <div class="benefits-content">
+                    <h1>Streamlined Health Access</h1>
+                    <p>Simplifies access to a wide network of healthcare providers, ensuring clients receive timely
+                        medical care.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Cost Efficiency</h1>
+                    <p>Helps clients manage and reduce healthcare expenses through negotiated rates and comprehensive
+                        coverage.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Emergency Support</h1>
+                    <p> Ensures clients have access to essential services during medical emergencies, providing peace of
+                        mind.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Prevent Health Programs</h1>
+                    <p>Includes preventive care services, promoting overall wellness and early detection of health
+                        issues.</p>
+                </div>
+            </div>
+
+            <div class="benefits-rows">
+                <div class="benefits-content">
+                    <h1>Administrative Ease</h1>
+                    <p>Manages health records and claims processing efficiently, reducing administrative burdens for
+                        clients.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Employee Satisfaction</h1>
+                    <p>Enhances employee benefits packages, improving job satisfaction and retention for corporate
+                        clients.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Regular Monitor & Report</h1>
+                    <p> Offers regular health usage reports and analytics to help clients track healthcare usage and
+                        make informed decisions about their health benefits.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Wellness Programs</h1>
+                    <p>Includes wellness and fitness programs to encourage healthy living and improve overall client
+                        well-being.</p>
+                </div>
+            </div>
+
+            <div class="benefits-rows">
+                <div class="benefits-content">
+                    <h1>Health Education and Resources</h1>
+                    <p>Provides clients with health education materials and resources to promote informed health
+                        decisions and healthy lifestyles.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Customized Solutions</h1>
+                    <p>Offers tailored health card plans to meet the specific needs of different client groups, ensuring
+                        optimal coverage and benefits.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>24/7 Customer Support</h1>
+                    <p>Offers round-the-clock customer service to assist clients with any health card-related queries or
+                        issues, ensuring continuous support.</p>
+                </div>
+
+                <div class="benefits-content">
+                    <h1>Global Coverage</h1>
+                    <p> Provides access to healthcare services internationally, ensuring clients are covered even when
+                        traveling abroad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2>Services</h2>
+        <p>Explore our wide range of camping gear services.</p>
+        <ul class="cards">
+            <li class="card">
+                <img src="./assets/healthcard-services.jpg">
+                <h3>Individual Health Cards</h3>
+                <p>Our individual health card plans offer comprehensive coverage tailored to meet the unique needs of
+                    each person. With access to a wide network of healthcare providers, you can ensure you receive
+                    timely and quality medical care.</p>
+            </li>
+            <li class="card">
+                <img src="./assets/corperate-services.jpg">
+                <h3>Corporate Health Solutions</h3>
+                <p>Enhance your employee benefits with our corporate health solutions. We offer customized health plans
+                    that cater to the needs of businesses, improving employee satisfaction, retention, and overall
+                    well-being.</p>
+            </li>
+            <li class="card">
+                <img src="./assets/prevent-services.jpg">
+                <h3>Preventive Care Programs</h3>
+                <p>Stay ahead of health issues with our preventive care programs. We provide services such as
+                    vaccinations, regular check-ups, and health screenings to help you maintain good health and detect
+                    any potential problems early.</p>
+            </li>
+        </ul>
+    </section>
+
+    <section class="about" id="about">
+        <h2>About Us</h2>
+        <p>Discover our story in providing Health Cards.</p>
+        <div class="row company-info">
+            <h3>Our Story</h3>
+            <p>We launched a health card program that revolutionized access to medical services, benefiting thousands.
+                Our initiative streamlined healthcare access, empowering communities with essential health coverage.
+                Through innovation and dedication, we transformed healthcare delivery, ensuring better lives for all.
+            </p>
+        </div>
+        <div class="row company-info">
+            <h3>Our Mission</h3>
+            <p> Our mission is to make quality healthcare accessible and affordable for everyone. We are dedicated to
+                providing comprehensive health card solutions that simplify the healthcare journey, ensuring individuals
+                and
+                organizations receive the best care possible with ease and confidence.</p>
+
+        </div>
+        <div class="row company-info">
+            <h3>Careers</h3>
+            <p>Join our team and contribute to making a positive impact in the healthcare industry. We offer a range of
+                rewarding career opportunities in consulting, customer service, administration, and more. Explore our
+                current openings and become part of our mission to improve healthcare access and affordability for all.
+            </p>
+        </div>
+        <div class="company-info">
+            <h3>Our Team</h3>
+            <p>Our team is a diverse group of experienced professionals passionate about transforming healthcare. From
+                our
+                knowledgeable consultants to our dedicated support staff, each member is committed to delivering
+                exceptional
+                service and personalized solutions to meet your healthcare needs.</p>
+        </div>
+    </section>
+
+    <section id="appointment" id="appointment">
+        <h2>Appointment Form</h2>
+        <div class="container">
+            <form id="appointment-form" action="/api/appointment" method="POST" class="form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="department">Department:</label>
+                        <select id="department" name="department" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dentist">Dentist</option>
+                            <option value="checkup">General Medical checkup</option>
+                            <option value="neurology">Neurology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hospital">Hospital:</label>
+                        <select id="hospital" name="hospital" required>
+                            <option value="" disabled selected>Hospital Name</option>
+                            <option value="hospital-A">Hospital-A</option>
+                            <option value="hospital-B">Hospital-B</option>
+                            <option value="hospital-C">Hospital-C</option>
+                            <option value="hospital-D">Hospital-D</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" required>
+                            <option value="" disabled selected>Select your state</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District:</label>
+                        <select id="district" name="district" required>
+                            <option value="" disabled selected>Select your district</option>
+                            <!-- District options will be populated based on the state selection -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" value="India" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes:</label>
+                        <textarea id="notes" name="notes"></textarea>
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+                <p id="message"></p>
+            </form>
+        </div>
+    </section>
+
+    <section class="faqs" id="faqs">
+        <h1>Frequently Asked Questions</h1>
+        <div class="faq">
+            <h2>What is a Health Card?</h2>
+            <div class="answer">
+                <p>A Health Card is a digital card that stores your health information and provides access to healthcare
+                    services.</p>
+            </div>
+        </div>
+        <div class="faq">
+            <h2>How do I apply for a Health Card?</h2>
+            <div class="answer">
+                <p>You can apply for a Health Card through our website or by visiting one of our consultancy offices.
+                </p>
+            </div>
+        </div>
+        <div class="faq">
+            <h2>Can I use my Health Card at any hospital?</h2>
+            <div class="answer">
+                <p>Yes, our Health Card is accepted at a wide range of hospitals and healthcare providers.
+                </p>
+            </div>
+        </div>
+        <div class="faq">
+            <h2>How do I renew my Health Card?</h2>
+            <div class="answer">
+                <p>You can renew your Health Card through our consultancy service, either online or in-person.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq">
+            <h2>Is my personal and medical information secure with Health Card Consultancy?</h2>
+            <div class="answer">
+                <p>Yes, we take data privacy and security seriously, and all personal and medical information is kept
+                    confidential and secure.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq">
+            <h2>What are the benefits of using Health Card Consultancy?</h2>
+            <div class="answer">
+                <p>Our consultancy service provides expert guidance, streamlined application processing, and access to a
+                    wide range of healthcare services and benefits.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <footer id="footer">
+        <div class="footer">
+            <div class="footer-left">
+                <div class="footer-top">
+                    <div class="footer-about">
+                        <h1 class="footer-header">About</h1>
+                        <ul>
+                            <li><a href="">Home</a></li>
+                            <li><a href="">Terms and Conditions</a></li>
+                            <li><a href="">Privacy Policy</a></li>
+                            <li><a href="">Security</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-services">
+                        <h1 class="footer-header">Services</h1>
+                        <ul>
+                            <li><a href="">Individual Health Cards</a></li>
+                            <li><a href="">Corporate Health Solutions</a></li>
+                            <li><a href="">Preventive Care Programs</a></li>
+                            <li><a href="">Wellness & Fitness Programs</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+
+                    <div class="contact">
+                        <h1 class="footer-header">Contact</h1>
+                        <ul>
+                            <li><a href="">Health Card Consultancy</a></li>
+                            <li><a href="">support@healthcardconsultancy.com</a></li>
+                            <li><a href="">(123) 456-7890</a></li>
+                            <li><a href="">1234 Health Avenue, Wellness City, HC 56789</a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-contact">
+                    <h1 class="footer-header">Contact</h1>
+                    <p class="footer-para">know details about our product, contact us!</p>
+                    <div class="contact-col">
+                        <div class="contact-row">
+                            <div>
+                                <select name="Iam" id="Iam" required>
+                                    <option value="" disabled selected>I am</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Lab">Lab</option>
+                                    <option value="hospital">Hospital</option>
+                                </select>
+                            </div>
+                            <div><input type="text" id="name" placeholder="Name" required></div>
+                        </div>
+                        <div class="contact-row">
+                            <div><input type="email" id="email" placeholder="Email" required></div>
+                            <div><input type="text" id="specialization" placeholder="Specialization" required></div>
+                        </div>
+                        <div class="contact-row">
+                            <button>Connect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div
+        style="background-color:#c59d55; width:80%; display: flex; align-items:center; justify-content:center; padding:10px 0;">
+        Copyright © 2024 All Rights Reserved.
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script>
+        async function fetchUserData(email) {
+            try {
+                const response = await fetch(`/api/user/${encodeURIComponent(email)}`);
+                if (!response.ok) {
+                    throw new Error('User not found');
+                }
+                const userData = await response.json();
+                return userData;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                return null;
+            }
+        }
+
+        async function displayUserProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            if (email) {
+                const userData = await fetchUserData(email);
+                if (userData) {
+                    document.getElementById('usernameContainer').innerText = `Welcome ${userData.name}!`;
+
+                    // Update profile details with user data
+                    document.getElementById('photo').innerText = userData.photo;
+                    document.getElementById('profileName').innerText = userData.name;
+                    document.getElementById('profileEmail').innerText = userData.email;
+                    document.getElementById('profileGender').innerText = userData.gender;
+                    document.getElementById('profileDob').innerText = userData.dob;
+                    document.getElementById('profileGovernmentID').innerText = userData.governmentID;
+                    document.getElementById('profileGovernmentIDNumber').innerText = userData.governmentIDNumber;
+                    document.getElementById('profileCouponNumber').innerText = userData.couponNumber;
+                    document.getElementById('profileCouponValidityDate').innerText = formatValidityDate(userData.couponValidityDate);
+
+                    // Update the discount card with user data
+                    document.getElementById('cardNumber').innerText = userData.couponNumber;
+                    document.getElementById('cardName').innerText = userData.name;
+                    document.getElementById('cardDob').innerText = `DOB: ${userData.dob}`;
+                    document.getElementById('validityDate').innerText = formatValidityDate(userData.couponValidityDate);
+                } else {
+                    console.error('User data not found.');
+                }
+            } else {
+                console.error('Email parameter missing in URL.');
+            }
+        }
+
+        function formatValidityDate(fullDate) {
+            const dateObj = new Date(fullDate);
+            const month = dateObj.toLocaleString('default', { month: 'short' });
+            const year = dateObj.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+            return `${month.toUpperCase()} ${year}`;
+        }
+
+        function downloadCard() {
+            setTimeout(() => {
+                html2canvas(document.getElementById('discountCard')).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'discount-card.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            }, 500); // Adjust the delay if necessary
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserProfile();
+        });
+
+
+        // appointment form
+        const districtsByState = {
+            "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna"],
+            "Karnataka": ["Bangalore Urban", "Bangalore Rural", "Chikballapur", "Chitradurga", "Dakshina Kannada"],
+            "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"]
+        };
+
+        document.getElementById('state').addEventListener('change', function () {
+            const state = this.value;
+            const districtSelect = document.getElementById('district');
+
+            // Clear previous district options
+            districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
+
+            // Populate new district options
+            if (districtsByState[state]) {
+                districtsByState[state].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('appointment-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const department = document.getElementById('department').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const notes = document.getElementById('notes').value;
+            const hospital = document.getElementById('hospital').value;
+            const message = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/appointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        date,
+                        time,
+                        department,
+                        country,
+                        state,
+                        district,
+                        notes,
+                        hospital
+                    })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    message.textContent = 'Appointment scheduled successfully!';
+                    message.style.color = 'green';
+                    document.getElementById('appointment-form').reset();
+                } else {
+                    const responseData = await response.json();
+                    message.textContent = responseData.message || 'Failed to schedule appointment';
+                    message.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = 'An error occurred';
+                message.style.color = 'red';
+            }
+        });
+
+        /*faq js*/
+
+        document.querySelectorAll('.faq h2').forEach((question) => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('show');
+            });
+        });
+
+    </script>
+</body>
+
+</html>

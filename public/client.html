@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-container input, select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #clear-button {
+            padding: 0.5rem 1rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #total-count {
+            text-align: left;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Client Dashboard</h1>
+    </header>
+    <div class="navbar">
+        <div class="left-links">
+            <a href="#User-Registerations">User Registration</a>
+            <a href="#Admin-Registerations">Admin Registration</a>
+            <a href="#Appointments">Appointments</a>
+            <a href="#Billing">Billing</a>
+        </div>
+        <div class="right-links">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+    <section id="User-Registrations">
+        <div class="container">
+            <div class="filter-container">
+                <div>
+                    <input type="text" id="email-filter" placeholder="Filter by Email">
+                    <input type="text" id="discount-card-filter" placeholder="Filter by Discount Card">
+                    <button id="clear-button">Clear</button>
+                </div>
+                <div id="total-count">Total Users Registrations: <span id="total-count-number" style="color: #dc3545; font-weight:700">0</span></div>
+            </div>
+            <div class="admin-section">
+                <h2>User Registrations</h2>
+                <table id="clients-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>ID Proof</th>
+                            <th>ID Proof Number</th>
+                            <th>Discount Card</th>
+                            <th>Discount Validity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-data">
+                        <!-- Client data will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="Admin-Registerations">
+        <div class="container">
+            <h1>Admin Registrations</h1>
+            <div class="filter-container">
+                <input type="text" id="emailFilter" placeholder="Filter by Email">
+                <div class="total-count" >Total Admin Registrations:<span id="totalCount"  style="color: #dc3545; font-weight:700">0</span></div>
+            </div>
+            <table id="adminTable">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section id="Appointments">
+        <div class="container">
+            <h2>Appointments</h2>
+            <div class="filter-container">
+                <div class="filters">
+                    <select id="hospital-select">
+                        <option value="">Select Hospital</option>
+                        <option value="hospital-A">Hospital-A</option>
+                        <option value="hospital-B">Hospital-B</option>
+                        <option value="hospital-C">Hospital-C</option>
+                        <option value="hospital-D">Hospital-D</option>
+                        <!-- Add more hospitals as needed -->
+                    </select>
+                    <select id="state-filter">
+                        <option value="">Filter by State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <!-- Add more states as needed -->
+                    </select>
+                    <select id="district-filter">
+                        <option value="">Filter by District</option>
+                        <!-- District options will be populated dynamically -->
+                    </select>
+                    <input type="date" id="date-filter">
+                    <button id="clear-button">Clear</button>
+                </div>
+                <div id="total-count">Total Hospital Appointments: <span id="total-count-number" style="color: #dc3545; font-weight:700">0</span></div>
+            </div>
+            
+            <table id="appointments-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Department</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Hospital</th>
+                    </tr>
+                </thead>
+                <tbody id="appointments-list">
+                    <!-- Appointment data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section id="Billing">
+        <div class="container">
+            <h2>Billing</h2>
+            <div class="filter-container">
+                <div class="filters">
+                    <select id="hospital-select">
+                        <option value="">Select Hospital</option>
+                        <option value="hospital-A">Hospital-A</option>
+                        <option value="hospital-B">Hospital-B</option>
+                        <option value="hospital-C">Hospital-C</option>
+                        <option value="hospital-D">Hospital-D</option>
+                        <!-- Add more hospitals as needed -->
+                    </select>
+                    <input type="date" id="date-filter">
+                    <button id="clear-button">Clear</button>
+                </div>
+                <div id="total-count">Total Billings: <span id="total-count-number" style="color: #dc3545; font-weight:700">0</span></div>
+            </div>
+            
+            <table id="billing-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Hospital</th>
+                        <th>Patient Name</th>
+                        <th>Diagnosis</th>
+                        <th>Treatment Date</th>
+                        <th>Billing Date</th>                                           
+                        <th>Billing Amount</th>
+                        <th>Payment Method</th>
+                        
+                    </tr>
+                </thead>
+                <tbody id="billing-list">
+                    <!-- Billing data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const clientsRes = await fetch('/api/admin/clients');
+                let clientsData = await clientsRes.json();
+                const clientsTable = document.getElementById('clients-data');
+
+                function formatDate(dateString) {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    return new Date(dateString).toLocaleDateString(undefined, options);
+                }
+
+                function updateClientsTable(filteredClients) {
+                    // Clear existing table rows
+                    clientsTable.innerHTML = '';
+
+                    // Direct iteration to prepend rows
+                    filteredClients.forEach((client, index) => {
+                        const row = clientsTable.insertRow(0); // Insert at the beginning (top) of the table
+                        row.innerHTML = `
+                            <td>${filteredClients.length - index}</td>
+                            <td>${client.name}</td>
+                            <td>${client.email}</td>
+                            <td>${client.gender}</td>
+                            <td>${client.dob}</td>
+                            <td>${client.governmentID}</td>
+                            <td>${client.governmentIDNumber}</td>
+                            <td>${client.couponNumber}</td>
+                            <td>${formatDate(client.couponValidityDate)}</td>
+                        `;
+                    });
+
+                    document.getElementById('total-count-number').textContent = filteredClients.length;
+                }
+
+                updateClientsTable(clientsData);
+
+                document.getElementById('email-filter').addEventListener('input', filterClients);
+                document.getElementById('discount-card-filter').addEventListener('input', filterClients);
+                document.getElementById('clear-button').addEventListener('click', clearFilters);
+
+                function filterClients() {
+                    const email = document.getElementById('email-filter').value.toLowerCase();
+                    const discountCard = document.getElementById('discount-card-filter').value.toLowerCase();
+
+                    let filteredClients = clientsData;
+
+                    if (email) {
+                        filteredClients = filteredClients.filter(client => client.email.toLowerCase().includes(email));
+                    }
+
+                    if (discountCard) {
+                        filteredClients = filteredClients.filter(client => client.couponNumber && client.couponNumber.toLowerCase().includes(discountCard));
+                    }
+
+                    updateClientsTable(filteredClients);
+                }
+
+                function clearFilters() {
+                    document.getElementById('email-filter').value = '';
+                    document.getElementById('discount-card-filter').value = '';
+                    updateClientsTable(clientsData);
+                }
+
+                // WebSocket implementation
+                const socket = io();
+
+                // Listen for new client data via WebSocket
+                socket.on('newClient', (newClient) => {
+                    addNewClient(newClient);
+                });
+
+                function addNewClient(newClient) {
+                    // Add new client to the beginning of the array
+                    clientsData.unshift(newClient);
+                    // Update the table with the new data
+                    updateClientsTable(clientsData);
+                }
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+
+        //Admin-Registerations
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tableBody = document.getElementById('adminTable').querySelector('tbody');
+            const emailFilter = document.getElementById('emailFilter');
+            const totalCountElement = document.getElementById('totalCount');
+
+            // Function to fetch admin data
+            const fetchAdminData = async () => {
+                try {
+                    const response = await fetch('/api/admin/admins'); // Adjust URL if necessary
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const admins = await response.json();
+
+                    // Clear previous table rows
+                    tableBody.innerHTML = '';
+
+                    // Populate table with admin data
+                    admins.reverse().forEach((admin, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${index + 1}</td> <!-- Serial number starts from 1 -->
+                    <td>${admin.username}</td>
+                    <td>${admin.email}</td>
+                  `;
+                        tableBody.appendChild(row); // Append new data at the bottom
+                    });
+
+                    // Update total count
+                    totalCountElement.textContent = admins.length;
+                } catch (error) {
+                    console.error('Error fetching admin data:', error);
+                }
+            };
+
+            // Initial fetch
+            fetchAdminData();
+
+            // Event listener for email filter
+            emailFilter.addEventListener('input', async () => {
+                const filterValue = emailFilter.value.toLowerCase();
+                try {
+                    const response = await fetch('/api/admin/admins'); // Adjust URL if necessary
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const admins = await response.json();
+
+                    // Filter admins by email
+                    const filteredAdmins = admins.filter(admin => admin.email.toLowerCase().includes(filterValue));
+
+                    // Clear previous table rows
+                    tableBody.innerHTML = '';
+
+                    // Populate table with filtered admin data
+                    filteredAdmins.reverse().forEach((admin, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${index + 1}</td> <!-- Serial number starts from 1 -->
+                    <td>${admin.username}</td>
+                    <td>${admin.email}</td>
+                  `;
+                        tableBody.appendChild(row); // Append new data at the bottom
+                    });
+
+                    // Update total count
+                    totalCountElement.textContent = `Total Count: ${filteredAdmins.length}`;
+                } catch (error) {
+                    console.error('Error fetching admin data:', error);
+                }
+            });
+        });
+
+
+        //Appointments
+        document.addEventListener('DOMContentLoaded', () => {
+            const hospitalSelect = document.getElementById('hospital-select');
+            const stateFilter = document.getElementById('state-filter');
+            const districtFilter = document.getElementById('district-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const clearButton = document.getElementById('clear-button');
+            const appointmentsList = document.getElementById('appointments-list');
+            const totalCountNumber = document.getElementById('total-count-number');
+        
+            const districtsByState = {
+                "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna"],
+                "Karnataka": ["Bangalore Urban", "Bangalore Rural", "Chikballapur", "Chitradurga", "Dakshina Kannada"],
+                "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"]
+            };
+        
+            stateFilter.addEventListener('change', () => {
+                const state = stateFilter.value;
+                districtFilter.innerHTML = '<option value="">Filter by District</option>';
+                if (districtsByState[state]) {
+                    districtsByState[state].forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtFilter.appendChild(option);
+                    });
+                }
+            });
+        
+            const fetchAppointments = async () => {
+                const hospital = encodeURIComponent(hospitalSelect.value);
+                const state = encodeURIComponent(stateFilter.value);
+                const district = encodeURIComponent(districtFilter.value);
+                const date = encodeURIComponent(dateFilter.value);
+        
+                if (!hospital) {
+                    console.log('Hospital is empty or undefined');
+                    return;
+                }
+                
+                let url = `/api/admin/appointments?hospital=${hospital}`;
+                if (state) {
+                    url += `&state=${state}`;
+                }
+                if (district) {
+                    url += `&district=${district}`;
+                }
+                if (date) {
+                    url += `&date=${date}`;
+                }
+        
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        displayAppointments(data);
+                    } else {
+                        console.error('Failed to fetch appointments:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+        
+            const displayAppointments = (data) => {
+                appointmentsList.innerHTML = '';
+                data.forEach((appointment, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${appointment.name}</td>
+                        <td>${appointment.email}</td>
+                        <td>${new Date(appointment.date).toLocaleDateString()}</td>
+                        <td>${appointment.time}</td>
+                        <td>${appointment.department}</td>
+                        <td>${appointment.country}</td>
+                        <td>${appointment.state}</td>
+                        <td>${appointment.district}</td>
+                        <td>${appointment.hospital}</td>
+                    `;
+                    appointmentsList.appendChild(row);
+                });
+                totalCountNumber.textContent = displayAppointments.length;
+            };
+        
+            const clearFilters = () => {
+                hospitalSelect.value = '';
+                stateFilter.value = '';
+                districtFilter.value = '';
+                dateFilter.value = '';
+                appointmentsList.innerHTML = '';
+                totalCountNumber.textContent = 0;
+                fetchAppointments();
+            };
+        
+            hospitalSelect.addEventListener('change', fetchAppointments);
+            stateFilter.addEventListener('change', fetchAppointments);
+            districtFilter.addEventListener('change', fetchAppointments);
+            dateFilter.addEventListener('change', fetchAppointments);
+            clearButton.addEventListener('click', clearFilters);
+        
+            // Initial fetch on page load
+            fetchAppointments();
+        });
+        
+        //billings
+        document.addEventListener('DOMContentLoaded', () => {
+            const hospitalSelect = document.getElementById('hospital-select');
+            const dateFilter = document.getElementById('date-filter');
+            const clearButton = document.getElementById('clear-button');
+            const billingList = document.getElementById('billing-list');
+            const totalCountNumber = document.getElementById('total-count-number');
+            const billingTable = document.getElementById('billing-table');
+        
+            const fetchBillings = async () => {
+                const hospital = encodeURIComponent(hospitalSelect.value);
+                const date = encodeURIComponent(dateFilter.value);
+                
+                let url = `/billing?hospital=${hospital}`;
+                if (date) {
+                    url += `&date=${date}`;
+                }
+        
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        displayBilling(data);
+                    } else {
+                        console.error('Failed to fetch billings:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+        
+            const displayBilling = (data) => {
+                billingList.innerHTML = '';
+                
+                data.forEach((billing, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${billing.hospitalName}</td>
+                        <td>${billing.patientName}</td>
+                        <td>${billing.billingAmount}</td>
+                        <td>${billing.paymentMethod}</td>
+                        <td>${new Date(billing.billingDate).toLocaleDateString()}</td>
+                        <td>${billing.diagnosis}</td>
+                        <td>${new Date(billing.treatmentDate).toLocaleDateString()}</td>
+                    `;
+                    billingList.appendChild(row);
+                });
+                totalCountNumber.textContent = data.length;
+            };
+        
+            const clearFilters = () => {
+                hospitalSelect.value = '';
+                dateFilter.value = '';
+                billingList.innerHTML = '';
+                totalCountNumber.textContent = 0;
+                fetchBillings();
+            };
+        
+            hospitalSelect.addEventListener('change', fetchBillings);
+            dateFilter.addEventListener('change', fetchBillings);
+            clearButton.addEventListener('click', clearFilters);
+        
+            // Initial fetch on page load
+            fetchBillings();
+        });
+        
+    </script>
+</body>
+
+</html>

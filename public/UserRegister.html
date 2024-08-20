@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Outfit;
+        }
+
+        #header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.188);
+            padding: 10px 5%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav img {
+            height: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+        }
+
+        .cards {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            width: 100%;
+        }
+
+        .discount-card {
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 500px;
+        }
+
+        .discount-card img {
+            padding: 60px 0 0 0;
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .discription-container {
+            padding: 20px;
+
+        }
+
+        .description-card,
+        .login-card {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .description-card h1 {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            color: #680000;
+            margin-bottom: 10px;
+        }
+
+        .description-card h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #343a40;
+            text-align: end;
+            padding-right: 15px;
+        }
+
+        .description-card p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 15px;
+            border: 2px solid #007bff;
+            border-radius: 20px;
+            backdrop-filter: blur(70px);
+            background-color: whitesmoke;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 40px;
+        }
+
+        form label {
+            display: block;
+            font-weight: 500;
+            color: #343a40;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #343a40;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        form input:focus,
+        form select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            display: block;
+            padding: 5px 8px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .login-card p {
+            margin-top: 6px;
+            font-size: 10px;
+            text-align: start;
+        }
+
+        .login-link {
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        #formError {
+            margin-top: 5px;
+            font-size: 12px;
+            color: red;
+        }
+
+        #successMessage {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+            color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="header">
+        <div class="nav">
+            <img src="" alt="logo">
+            <div class="nav-menu">
+                <a href="">Contact</a>
+                <a href="">Help</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- <div class="cards">
+                <div class="discount-card">
+                    <img src="./assets/discount-card.png" alt="discount-card">
+                </div> -->
+
+            <div class="discription-container">
+                <div class="description-card">
+                    <h1>Welcome to Hospital!</h1>
+                    <p>We are here to providing the best healthcare services to our patients. Please log in to
+                        access your medical records, book appointments, and more. Your health and well-being are our
+                        top priority.</p>
+                    <h2>- 24/7 Available</h2>
+                </div>
+                <div class="login-card">
+                    <form id="registrationForm" action="/api/user/UserRegister" method="POST enctype=" multipart/form-data">
+
+                        <div class="row">
+                            <label for="photo">Upload Photo</label>
+                            <input type="file" id="photo" name="photo" accept="image/*" required>
+                        </div>
+
+
+                        <div class="row">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required class="full-width">
+                        </div>
+
+                        <div class="row">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <label for="dob">DOB</label>
+                            <input type="date" id="dob" name="dob" required class="full-width">
+                        </div>
+
+                        <div class="row">
+                            <label for="aadharNo">Aadhar No</label>
+                            <input type="text" id="aadharNo" name="aadharNo" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="aadharCardFront">Upload Aadhar Card (Front)</label>
+                            <input type="file" id="aadharCardFront" name="aadharCardFront" accept="image/*" required>
+                        </div>
+                        <div class="row">
+                            <label for="aadharCardBack">Upload Aadhar Card (Back)</label>
+                            <input type="file" id="aadharCardBack" name="aadharCardBack" accept="image/*" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="district">District</label>
+                            <input type="text" id="district" name="district" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="constituency">Constituency</label>
+                            <input type="text" id="constituency" name="constituency" required>
+                        </div>
+                        <div class="row">
+                            <label for="mandal">Mandal</label>
+                            <input type="text" id="mandal" name="mandal" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="village">Village</label>
+                            <input type="text" id="village" name="village" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="address">Address</label>
+                            <input id="address" name="address" type="text" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="mobileNo">Mobile No</label>
+                            <input type="tel" id="mobileNo" name="mobileNo" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+
+                        <div class="row">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+
+                        <div class="row">
+                            <div id="formError" style="display:none; color: red;" class="full-width"></div>
+                            <div id="successMessage" style="display:none; color: green;" class="full-width"></div>
+                        </div>
+
+                        <div class="row">
+                            <p>Already Signed In?<a href="/UserLogin" class="login-link"> Login</a></p>
+                            <div class="button-container"><button type="submit">Register</button></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+                document.getElementById('formError').textContent = "Passwords do not match.";
+                document.getElementById('formError').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    if (response.status === 400 && errorData.message === 'Email already registered') {
+                    }
+                    throw new Error(errorData.message || 'Unknown error');
+                }
+
+                const result = await response.json();
+                document.getElementById('registrationForm').reset();
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById("successMessage").textContent = "Registration successful!";
+                document.getElementById('formError').style.display = 'none';
+                window.location.href = "/success";
+            } catch (error) {
+                document.getElementById('formError').textContent = error.message;
+                document.getElementById('formError').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

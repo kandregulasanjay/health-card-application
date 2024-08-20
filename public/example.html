@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 70%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .search-box button:hover {
+            background-color: #218838;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .search-box button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Registration View</h2>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Enter email or discount card number">
+            <button onclick="searchUser()">OK</button>
+        </div>
+        <table id="userTable" class="user-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>ID Proof</th>
+                    <th>ID Proof Number</th>
+                    <th>Discount Card</th>
+                    <th>Card Validity</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+        <button id="clearButton" class="clear-button" onclick="clearTable()">Clear</button>
+    </div>
+
+    <script>
+        async function searchUser() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const userTableBody = document.getElementById('userTableBody');
+            userTableBody.innerHTML = ''; // Clear existing table rows
+
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ searchQuery: searchInput })
+                });
+                if (response.ok) {
+                    const user = await response.json();
+                    const row = `<tr>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.gender}</td>
+                        <td>${user.dob}</td>
+                        <td>${user.governmentID}</td>
+                        <td>${user.governmentIDNumber}</td>
+                        <td>${user.couponNumber}</td>
+                        <td>${formatDate(user.couponValidityDate)}</td>
+                        
+                    </tr>`;
+                    userTableBody.insertAdjacentHTML('beforeend', row);
+                    document.getElementById('clearButton').style.display = 'block';
+                } else {
+                    alert('User not found');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function clearTable() {
+            document.getElementById('userTableBody').innerHTML = '';
+            document.getElementById('clearButton').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+        }
+    </script>
+</body>
+</html>

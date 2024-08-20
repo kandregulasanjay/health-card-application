@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-container input, select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #clear-button {
+            padding: 0.5rem 1rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #total-count {
+            text-align: left;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>User Registerations</h1>
+    </header>
+    <div class="navbar">
+        <div class="left-links">
+            <a href="#User-Registerations">User Registration</a>
+        </div>
+        <div class="right-links">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+    <section id="User-Registerations">
+        <div class="container">
+            <div class="filter-container">
+                <div>
+                    <input type="text" id="email-filter" placeholder="Filter by Email">
+                    <input type="text" id="discount-card-filter" placeholder="Filter by Discount Card">
+                    <button id="clear-button">Clear Filters</button>
+                    <button id="show-all-button">Show All</button>
+                </div>
+                <input type="text" id="user-search" placeholder="Search User Data">
+                <div id="total-count">Total Clients: <span id="total-count-number">0</span></div>
+            </div>
+            <div class="admin-section">
+                <h2>Clients Registration Data</h2>
+                <table id="clients-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>ID Proof</th>
+                            <th>ID Proof Number</th>
+                            <th>Discount Card</th>
+                            <th>Discount Validity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-data">
+                        <!-- Client data will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const clientsRes = await fetch('/api/admin/clients');
+                let clientsData = await clientsRes.json();
+                const clientsTable = document.getElementById('clients-table');
+        
+                function formatDate(dateString) {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    return new Date(dateString).toLocaleDateString(undefined, options);
+                }
+        
+                function updateClientsTable(filteredClients) {
+                    const clientsDataElement = document.getElementById('clients-data');
+                    clientsDataElement.innerHTML = '';
+        
+                    // Direct iteration to prepend rows
+                    filteredClients.forEach((client, index) => {
+                        const row = clientsDataElement.insertRow(0); // Insert at the beginning (top) of the table
+                        row.innerHTML = `
+                            <td>${filteredClients.length - index}</td>
+                            <td>${client.name}</td>
+                            <td>${client.email}</td>
+                            <td>${client.gender}</td>
+                            <td>${client.dob}</td>
+                            <td>${client.governmentID}</td>
+                            <td>${client.governmentIDNumber}</td>
+                            <td>${client.couponNumber}</td>
+                            <td>${formatDate(client.couponValidityDate)}</td>
+                        `;
+                    });
+        
+                    document.getElementById('total-count-number').textContent = filteredClients.length;
+                }
+        
+                updateClientsTable(clientsData);
+        
+                document.getElementById('email-filter').addEventListener('input', filterClients);
+                document.getElementById('discount-card-filter').addEventListener('input', filterClients);
+                document.getElementById('clear-button').addEventListener('click', clearFilters);
+                document.getElementById('show-all-button').addEventListener('click', showAllData);
+                document.getElementById('user-search').addEventListener('input', searchUsers);
+        
+                function filterClients() {
+                    const email = document.getElementById('email-filter').value.toLowerCase();
+                    const discountCard = document.getElementById('discount-card-filter').value.toLowerCase();
+        
+                    let filteredClients = clientsData;
+        
+                    if (email) {
+                        filteredClients = filteredClients.filter(client => client.email.toLowerCase().includes(email));
+                    }
+        
+                    if (discountCard) {
+                        filteredClients = filteredClients.filter(client => client.couponNumber && client.couponNumber.toLowerCase().includes(discountCard));
+                    }
+        
+                    updateClientsTable(filteredClients);
+                }
+        
+                function clearFilters() {
+                    document.getElementById('email-filter').value = '';
+                    document.getElementById('discount-card-filter').value = '';
+                    updateClientsTable(clientsData);
+                }
+        
+                function showAllData() {
+                    clientsTable.style.display = 'table'; 
+                    updateClientsTable(clientsData);
+                }
+        
+                function searchUsers() {
+                    const searchQuery = document.getElementById('user-search').value.toLowerCase();
+        
+                    let searchedClients = clientsData;
+        
+                    if (searchQuery.length === 16 && !isNaN(searchQuery)) {
+                        // Search by 16-digit discount card number
+                        searchedClients = searchedClients.filter(client =>
+                            client.couponNumber === searchQuery
+                        );
+                    } else {
+                        // Default search behavior (name, email, etc.)
+                        searchedClients = searchedClients.filter(client =>
+                            client.name.toLowerCase().includes(searchQuery) ||
+                            client.email.toLowerCase().includes(searchQuery)||
+                            client.couponNumber.toLowerCase().includes(searchQuery)
+                            // Add more fields to search as needed
+                        );
+                    }
+        
+                    updateClientsTable(searchedClients);
+                }
+        
+                // WebSocket implementation
+                const socket = io();
+        
+                // Listen for new client data via WebSocket
+                socket.on('newClient', (newClient) => {
+                    addNewClient(newClient);
+                });
+        
+                function addNewClient(newClient) {
+                    // Add new client to the beginning of the array
+                    clientsData.unshift(newClient);
+                    // Update the table with the new data
+                    updateClientsTable(clientsData);
+                }
+        
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+        
+    </script>
+</body>
+</html>

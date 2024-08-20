@@ -1,0 +1,9 @@
+{
+    "totalCommission": 1000,
+    "distributionDetails": {
+        "district": { "person": "Alice", "percentage": 20 },
+        "constituency": { "person": "Bob", "percentage": 30 },
+        "mandal": { "person": "Charlie", "percentage": 25 },
+        "village": { "person": "Dave", "percentage": 25 }
+    }
+}

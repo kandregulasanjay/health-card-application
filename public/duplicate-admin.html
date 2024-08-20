@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #User-registeration .search-box {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        #User-registeration input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+
+        #User-registeration .search-box button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #User-registeration .search-box button:hover {
+            background-color: #218838;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-container input,
+        select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #clear-button {
+            padding: 0.5rem 1rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #total-count {
+            text-align: left;
+        }
+
+        h2 {
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+
+        #Appointment-Form .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            /* Add some space between sections */
+            gap: 12px;
+
+        }
+
+        #Appointment-Form .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        #Appointment-Form label {
+            display: block;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        #Appointment-Form .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            gap: 20px;
+        }
+
+        #Appointment-Form .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        #Appointment-Form textarea {
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            align-items: center;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-top: 1rem;
+            /* Add margin top to separate from textarea */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #Appointment-Form #message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        #Appointment-Form input[type="text"] {
+            width: 100%;
+            border: 1px solid #333;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        #Appointment-Form input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Hospital Admin</h1>
+    </header>
+    <div class="navbar">
+        <div class="left-links">
+            <a href="#User-Registerations">User Registration</a>
+            <a href="#Appointments">Appointments</a>
+            <a href="#Appointments-Form">Appointment Form</a>
+        </div>
+        <div class="right-links">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+    <section id="User-registeration">
+        <!-- Clients Registration Data -->
+        <div class="container">
+            <h2>User Registration View</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Enter email or discount card number">
+                <button onclick="searchUser()">OK</button>
+                <button id="clearButton" class="clear-button" onclick="clearTable()" style="background-color: #dc3545;">Clear</button>
+            </div>
+            <table id="userTable" class="user-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>DOB</th>
+                        <th>ID Proof</th>
+                        <th>ID Proof Number</th>
+                        <th>Discount Card</th>
+                        <th>Card Validity</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section id="Appointments">
+        <div class="container">
+            <h2>Appointments</h2>
+            <div class="filter-container">
+                <div class="filters">
+                    <select id="hospital-select" style="display: none;">
+                        <option value="">Select Hospital</option>
+                        <option value="hospital-A">Hospital-A</option>
+                        <option value="hospital-B">Hospital-B</option>
+                        <option value="hospital-C">Hospital-C</option>
+                        <option value="hospital-D">Hospital-D</option>
+                        <!-- Add more hospitals as needed -->
+                    </select>
+                    <select id="state-filter">
+                        <option value="">Filter by State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <!-- Add more states as needed -->
+                    </select>
+                    <select id="district-filter">
+                        <option value="">Filter by District</option>
+                        <!-- District options will be populated dynamically -->
+                    </select>
+                    <input type="date" id="date-filter">
+                    <button id="clear-button">Clear</button>
+                </div>
+                <div id="total-count">Total Appointments: <span id="total-count-number">0</span></div>
+            </div>
+            <table id="appointments-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>Hospital</th>
+                    </tr>
+                </thead>
+                <tbody id="appointments-list">
+                    <!-- Appointment data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section id="Appointments-Form">
+        <div class="container">
+            <h2>Appointment Details</h2>
+            <form id="appointment-form" action="/api/appointment" method="POST" class="form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Date:</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Time:</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="doctor">Doctor:</label>
+                            <input type="text" id="doctor" name="doctor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hospital">Hospital:</label>
+                            <select id="hospital" name="hospital" required>
+                                <option value="" disabled selected>Hospital Name</option>
+                                <option value="hospital-A">Hospital-A</option>
+                                <option value="hospital-B">Hospital-B</option>
+                                <option value="hospital-C">Hospital-C</option>
+                                <option value="hospital-D">Hospital-D</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">State:</label>
+                            <select id="state" name="state" required>
+                                <option value="" disabled selected>Select your state</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Karnataka">Karnataka</
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <!-- Add more states as needed -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="district">District:</label>
+                                <select id="district" name="district" required>
+                                    <option value="" disabled selected>Select your district</option>
+                                    <!-- Add district options dynamically based on selected state -->
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </section>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const hospitalName = urlParams.get('hospital');
+                    if (hospitalName) {
+                        document.getElementById('hospital-select').value = hospitalName;
+                        document.getElementById('hospital-select').style.display = 'none';
+                        filterAppointments(hospitalName);
+                    }
+                });
+    
+                async function filterAppointments(hospital) {
+                    try {
+                        const response = await fetch(`/api/appointments?hospital=${hospital}`);
+                        const appointments = await response.json();
+    
+                        const appointmentsList = document.getElementById('appointments-list');
+                        appointmentsList.innerHTML = '';
+    
+                        appointments.forEach((appointment, index) => {
+                            const row = document.createElement('tr');
+    
+                            const serialNumber = document.createElement('td');
+                            serialNumber.textContent = index + 1;
+                            row.appendChild(serialNumber);
+    
+                            const name = document.createElement('td');
+                            name.textContent = appointment.name;
+                            row.appendChild(name);
+    
+                            const email = document.createElement('td');
+                            email.textContent = appointment.email;
+                            row.appendChild(email);
+    
+                            const date = document.createElement('td');
+                            date.textContent = appointment.date;
+                            row.appendChild(date);
+    
+                            const time = document.createElement('td');
+                            time.textContent = appointment.time;
+                            row.appendChild(time);
+    
+                            const doctor = document.createElement('td');
+                            doctor.textContent = appointment.doctor;
+                            row.appendChild(doctor);
+    
+                            const country = document.createElement('td');
+                            country.textContent = appointment.country;
+                            row.appendChild(country);
+    
+                            const state = document.createElement('td');
+                            state.textContent = appointment.state;
+                            row.appendChild(state);
+    
+                            const district = document.createElement('td');
+                            district.textContent = appointment.district;
+                            row.appendChild(district);
+    
+                            const hospitalCell = document.createElement('td');
+                            hospitalCell.textContent = appointment.hospital;
+                            row.appendChild(hospitalCell);
+    
+                            appointmentsList.appendChild(row);
+                        });
+    
+                        const totalCount = document.getElementById('total-count-number');
+                        totalCount.textContent = appointments.length;
+    
+                    } catch (error) {
+                        console.error('Error fetching appointments:', error);
+                    }
+                }
+    
+                // Additional script for district dropdown population and other functionalities
+            </script>
+        </body>
+    </html>
+    

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Discount Card</title>
+    <!-- Fontawesome Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f2f2f2;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: #007b9c;
+
+        }
+
+        .navbar {
+            display: flex;
+            padding: 0 10px;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1px;
+        }
+
+        .navbar input#menu-toggler {
+            display: none;
+        }
+
+        .navbar #hamburger-btn {
+            cursor: pointer;
+            display: none;
+        }
+
+        .navbar .all-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .all-links li {
+            position: relative;
+            list-style: none;
+        }
+
+        .navbar .logo a {
+            display: flex;
+            align-items: center;
+            margin-left: 0;
+        }
+
+        header a,
+        footer a {
+            margin-left: 40px;
+            text-decoration: none;
+            color: #fff;
+            height: 100%;
+            padding: 20px 0;
+            display: inline-block;
+        }
+
+        header a:hover,
+        footer a:hover {
+            color: #ddd;
+        }
+
+        .homepage {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            background: url("assets/image2.jpg");
+            background-position: center 100%;
+            background-size: cover;
+        }
+
+        .homepage::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .homepage .content {
+            display: flex;
+            height: 85%;
+            z-index: 3;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .homepage .content h1 {
+            font-size: 60px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .homepage .content .text {
+            margin-bottom: 50px;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .content a {
+            color: #000;
+            display: block;
+            text-transform: uppercase;
+            font-size: 18px;
+            margin: 0 10px;
+            padding: 10px 30px;
+            border-radius: 5px;
+            background: #fff;
+            border: 2px solid #fff;
+            transition: 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        section {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 80px 0 0;
+        }
+
+        section h2 {
+            font-size: 2rem;
+        }
+
+        section>p {
+            text-align: center;
+        }
+
+        section .cards {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin-top: 50px;
+            padding: 0 10px;
+            justify-content: space-between;
+        }
+
+        section.about {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .about .company-info {
+            margin-top: 30px;
+        }
+
+        .about h3 {
+            margin: 30px 0 10px;
+        }
+
+        .about .team {
+            text-align: left;
+            width: 100%;
+        }
+
+        .about .team ul {
+            padding-left: 20px;
+        }
+
+        section .cards .card {
+            background: #fff;
+            padding: 40px 15px;
+            list-style: none;
+            border-radius: 5px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.04);
+            margin-bottom: 40px;
+            width: calc(100% / 3 - 30px);
+            text-align: center;
+        }
+
+        .portfolio .cards .card {
+            padding: 0 0 20px;
+        }
+
+        .services .card img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            border-radius: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio .card img {
+            width: 100%;
+            padding-bottom: 10px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        .cards .card p {
+            padding: 0 15px;
+            margin-top: 5px;
+        }
+
+        .about .row {
+            padding: 0 10px;
+        }
+
+        .contact .row {
+            margin: 60px 0 90px;
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .contact .row .col {
+            padding: 0 10px;
+            width: calc(100% / 2 - 50px);
+        }
+
+        .contact .col p {
+            margin-bottom: 10px;
+        }
+
+        .contact .col p i {
+            color: #7a7a7a;
+            margin-right: 10px;
+        }
+
+        .contact form input {
+            height: 45px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            outline: none;
+            border: 1px solid #bfbfbf;
+        }
+
+        .contact form textarea {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            height: 150px;
+            outline: none;
+            resize: vertical;
+            border: 1px solid #bfbfbf;
+        }
+
+        .contact form button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 17px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background: #333;
+            transition: 0.2s ease;
+        }
+
+        .contact form button:hover {
+            background: #525252;
+        }
+
+        footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: #000;
+            padding: 20px 0;
+        }
+
+        footer div {
+            padding: 0 10px;
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer span {
+            color: #fff;
+        }
+
+        footer a {
+            padding: 0;
+        }
+
+        #profilePage {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: fit-content;
+            padding: 30px;
+            margin: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        #profilePage p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        #discountCard {
+            background: url('assets/medical-card.jpg');
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 20px;
+            width: 500px;
+            
+            margin-top: 30px;
+        }
+
+        #discountCard h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        .cardInfo {
+            margin-bottom: 4px;
+        }
+
+        .cardInfo p {
+            margin: 3px 0;
+        }
+
+        #cardContent {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cardNumber {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .cardName {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .validity {
+            font-size: 16px;
+        }
+
+        #profilePage button {
+            padding: 10px 20px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        @media screen and (max-width: 860px) {
+            .navbar .all-links {
+                position: fixed;
+                left: -100%;
+                width: 300px;
+                display: block;
+                height: 100vh;
+                top: 75px;
+                background: #333;
+                transition: left 0.3s ease;
+            }
+
+            .navbar #menu-toggler:checked~.all-links {
+                left: 0;
+            }
+
+            .navbar .all-links li {
+                font-size: 18px;
+            }
+
+            .navbar #hamburger-btn {
+                display: block;
+            }
+
+            section>p {
+                text-align: center;
+            }
+
+            section .cards .card {
+                width: calc(100% / 2 - 15px);
+                margin-bottom: 30px;
+            }
+
+            .homepage .content h1 {
+                font-size: 40px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            .homepage .content .text {
+                font-size: 17px;
+            }
+
+            .content a {
+                font-size: 17px;
+                padding: 9px 20px;
+            }
+
+            .contact .row {
+                flex-direction: column;
+            }
+
+            .contact .row .col {
+                width: 100%;
+            }
+
+            .contact .row .col:last-child {
+                margin-top: 40px;
+            }
+
+            footer a {
+                height: 0;
+            }
+        }
+
+        @media screen and (max-width: 560px) {
+            section .cards .card {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+
+        #appointment .form-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        #appointment label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        #appointment .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            gap: 20px;
+        }
+
+        #appointment .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        #appointment select,
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            border: 1px solid #333;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        #appointment textarea {
+            resize: vertical;
+        }
+
+        #appointment button[type="submit"] {
+            align-items: center;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        #appointment button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p#message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="usernameContainer" style="color: rgb(0, 0, 0); font-weight:700; letter-spacing:1px;"></div>
+            <input type="checkbox" id="menu-toggler">
+            <label for="menu-toggler" id="hamburger-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 18h18v-2H3v2zm0-5h18V11H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </label>
+            <ul class="all-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#appointment">Appointment</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#services" id="profileLink">services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="homepage" id="home">
+        <div class="content">
+            <div class="text">
+                <h1>GET YOUR APPOINTMENT NOW</h1>
+                <p>
+                    Discover top-quality Hospitals near you <br> Avail your Digital Discount Card now! </p>
+            </div>
+            <a href="#profile">My Digital Medical Card</a>
+        </div>
+    </section>
+
+    <section id="appointment">
+        <h2 style="margin-bottom: 15px;">Appointment Form</h2>
+        <div class="container">
+            <form id="appointment-form" action="/api/appointment" method="POST" class="form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="department">Department:</label>
+                        <select id="department" name="department" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dentist">Dentist</option>
+                            <option value="checkup">General Medical checkup</option>
+                            <option value="neurology">Neurology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hospital">Hospital:</label>
+                        <select id="hospital" name="hospital" required>
+                            <option value="" disabled selected>Hospital Name</option>
+                            <option value="hospital-A">Hospital-A</option>
+                            <option value="hospital-B">Hospital-B</option>
+                            <option value="hospital-C">Hospital-C</option>
+                            <option value="hospital-D">Hospital-D</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" required>
+                            <option value="" disabled selected>Select your state</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District:</label>
+                        <select id="district" name="district" required>
+                            <option value="" disabled selected>Select your district</option>
+                            <!-- District options will be populated based on the state selection -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" value="India" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes:</label>
+                        <textarea id="notes" name="notes"></textarea>
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+                <p id="message"></p>
+            </form>
+        </div>
+    </section>
+
+    <section class="profile" id="profile">
+        <h2>Profile</h2>
+        <div id="profilePage">
+
+            <div class="profile-info">
+                <p id="profileName"><strong>Name:</strong></p>
+                <p id="profileEmail"><strong>Email:</strong></p>
+                <p id="profileGender"><strong>Gender:</strong></p>
+                <p id="profileDob"><strong>Date of Birth:</strong></p>
+                <p id="profileGovernmentID"><strong>Government ID:</strong></p>
+                <p id="profileGovernmentIDNumber"><strong>Government ID Number:</strong></p>
+                <p id="profileCouponNumber"><strong>Medical Card Number:</strong></p>
+                <p id="profileCouponValidityDate"><strong>Card Validity:</strong></p>
+            </div>
+            <div id="discountCard">
+                <div id="cardContent">
+                    <h2>Medical Card</h2>
+
+                    <div class="cardInfo">
+                        <p class="cardName" id="cardName">Cardholder Name</p>
+                    </div>
+                    <div class="cardInfo">
+                        <p class="cardDob" id="cardDob">Cardholder DOB</p>
+                    </div>
+                    <div class="cardInfo">
+                        <p class="validity" id="validityDate">Validity: MM/YY</p>
+                    </div>
+                    <div class="cardInfo">
+                        <p class="cardNumber" id="cardNumber">#### #### #### ####</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="downloadCard()">Download Discount Card</button>
+        </div>
+    </section>
+
+
+    <section class="services" id="services">
+        <h2>Our Services</h2>
+        <p>Explore our wide range of camping gear services.</p>
+        <ul class="cards">
+            <li class="card">
+                <img src="assets/s1.jpeg" alt="img">
+                <h3>Cardiology</h3>
+                <p>"Empowering hearts, advancing lives—committed to excellence in cardiovascular care."</p>
+            </li>
+            <li class="card">
+                <img src="assets/s2.jpg" alt="img">
+                <h3>Orthopedics</h3>
+                <p>"Strengthening your foundation, one step at a time."</p>
+            </li>
+            <li class="card">
+                <img src="assets/s3.jpeg" alt="img">
+                <h3>Pediatrics</h3>
+                <p> "Nurturing health, one child at a time."</p>
+            </li>
+            <li class="card">
+                <img src="assets/s4.jpeg" alt="img">
+                <h3>Neurology</h3>
+                <p>"Unraveling the complexities of the mind, restoring life's harmony."</p>
+            </li>
+            <li class="card">
+                <img src="assets/s5.jpg" alt="img">
+                <h3>Gynecology</h3>
+                <p>"Empowering women's health, from generation to generation."</p>
+            </li>
+            <li class="card">
+                <img src="assets/s6.jpeg" alt="img">
+                <h3>Pulmonology</h3>
+                <p>"Breathing life into every breath—dedicated to exceptional pulmonary care."</p>
+            </li>
+        </ul>
+    </section>
+
+   
+
+    <section class="about" id="about">
+        <h2>About Us</h2>
+        <p>Discover our story in providing Health Cards.</p>
+        <div class="row company-info">
+            <h3>Our Story</h3>
+            <p>We launched a health card program that revolutionized access to medical services, benefiting thousands. Our initiative streamlined healthcare access, empowering communities with essential health coverage. Through innovation and dedication, we transformed healthcare delivery, ensuring better lives for all.</p>
+        </div>
+        <div class="row mission-vision">
+            <h3>Our Mission</h3>
+            <p> our mission is to provide accessible health cards that prioritize affordability and comprehensive coverage. We aim to empower individuals with reliable access to healthcare services, ensuring peace of mind and wellness for all.</p>
+            <h3>Our Vision</h3>
+            <p>our vision is to empower every individual with seamless access to comprehensive healthcare through innovative health cards. We strive to ensure equitable healthcare distribution and improve quality of life by simplifying medical access and enhancing wellness outcomes.</p>
+        </div>
+        <div class="row team">
+            <h3>Our Team</h3>
+            <ul>
+                <li>""- Founder and CEO</li>
+                <li>"" - Customer Representative</li>
+                <li>"" - Operations Manager</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+        <p>Reach out to us for any inquiries or feedback.</p>
+        <div class="row">
+            <div class="col information">
+                <div class="contact-details">
+                    <p><i class="fas fa-map-marker-alt"></i>Address</p>
+                    <p><i class="fas fa-envelope"></i> infohealthcard.com</p>
+                    <p><i class="fas fa-phone"></i></p>
+                    <p><i class="fas fa-clock"></i> Monday - Friday: 9:00 AM - 5:00 PM</p>
+                    <p><i class="fas fa-clock"></i> Saturday: 10:00 AM - 3:00 PM</p>
+                    <p><i class="fas fa-clock"></i> Sunday: Closed</p>
+                    <p><i class="fas fa-globe"></i> www.healthcard.com</p>
+                </div>
+            </div>
+            <div class="col form">
+                <form>
+                    <input type="text" placeholder="Name*" required>
+                    <input type="email" placeholder="Email*" required>
+                    <textarea placeholder="Message*" required></textarea>
+                    <button id="submit" type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <span>Copyright Â© 2023 All Rights Reserved</span>
+            <span class="link">
+                <a href="#">Home</a>
+                <a href="#contact">Contact</a>
+            </span>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script>
+        async function fetchUserData(email) {
+            try {
+                const response = await fetch(`/api/user/${encodeURIComponent(email)}`);
+                if (!response.ok) {
+                    throw new Error('User not found');
+                }
+                const userData = await response.json();
+                return userData;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                return null;
+            }
+        }
+
+        async function displayUserProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            if (email) {
+                const userData = await fetchUserData(email);
+                if (userData) {
+                    document.getElementById('usernameContainer').innerText = `Welcome ${userData.name}!`;
+
+                    // Update profile details with user data
+                    document.getElementById('profileName').innerText = `Full Name: ${userData.name}`;
+                    document.getElementById('profileEmail').innerText = `E-mail: ${userData.email}`;
+                    document.getElementById('profileGender').innerText = `Gender: ${userData.gender}`;
+                    document.getElementById('profileDob').innerText = `Date of Birth: ${userData.dob}`;
+                    document.getElementById('profileGovernmentID').innerText = `Government ID: ${userData.governmentID}`;
+                    document.getElementById('profileGovernmentIDNumber').innerText = `Government ID Number: ${userData.governmentIDNumber}`;
+                    document.getElementById('profileCouponNumber').innerText = `Medical Card Number: ${userData.couponNumber}`;
+                    document.getElementById('profileCouponValidityDate').innerText = `Card Validity: ${formatValidityDate(userData.couponValidityDate)}`;
+
+                    // Update the discount card with user data
+                    document.getElementById('cardNumber').innerText = userData.couponNumber;
+                    document.getElementById('cardName').innerText = `Name: ${userData.name}`;
+                    document.getElementById('cardDob').innerText = `Date of Birth: ${userData.dob}`;
+                    document.getElementById('validityDate').innerText = `Card Validity: ${formatValidityDate(userData.couponValidityDate)}`;
+                } else {
+                    console.error('User data not found.');
+                }
+            } else {
+                console.error('Email parameter missing in URL.');
+            }
+        }
+
+        function formatValidityDate(fullDate) {
+            const dateObj = new Date(fullDate);
+            const month = dateObj.toLocaleString('default', { month: 'short' });
+            const year = dateObj.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+            return `${month.toUpperCase()} ${year}`;
+        }
+
+        function downloadCard() {
+            // Ensure the details are updated before capturing the canvas
+            setTimeout(() => {
+                html2canvas(document.getElementById('discountCard')).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'discount-card.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            }, 500); // Adjust the delay if necessary
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUserProfile();
+        });
+
+
+        // appointment form
+        const districtsByState = {
+            "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna"],
+            "Karnataka": ["Bangalore Urban", "Bangalore Rural", "Chikballapur", "Chitradurga", "Dakshina Kannada"],
+            "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"]
+        };
+
+        document.getElementById('state').addEventListener('change', function () {
+            const state = this.value;
+            const districtSelect = document.getElementById('district');
+
+            // Clear previous district options
+            districtSelect.innerHTML = '<option value="" disabled selected>Select your district</option>';
+
+            // Populate new district options
+            if (districtsByState[state]) {
+                districtsByState[state].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('appointment-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const department = document.getElementById('department').value;
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const notes = document.getElementById('notes').value;
+            const hospital = document.getElementById('hospital').value;
+            const message = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/appointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        date,
+                        time,
+                        department,
+                        country,
+                        state,
+                        district,
+                        notes,
+                        hospital
+                    })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    message.textContent = 'Appointment scheduled successfully!';
+                    message.style.color = 'green';
+                    document.getElementById('appointment-form').reset();
+                } else {
+                    const responseData = await response.json();
+                    message.textContent = responseData.message || 'Failed to schedule appointment';
+                    message.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = 'An error occurred';
+                message.style.color = 'red';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileLink = document.getElementById('profileNav');
+            const profileSection = document.getElementById('profile');
+
+            profileLink.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+
+                // Toggle visibility of profile section
+                if (profileSection.style.display === 'none') {
+                    profileSection.style.display = 'block';
+                } else {
+                    profileSection.style.display = 'none';
+                }
+            });
+
+            displayUserProfile(); // Function to display user profile data if available
+        });
+
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+

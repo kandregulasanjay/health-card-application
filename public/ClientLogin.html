@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Outfit;
+            overflow: hidden;
+        }
+
+        #header {
+            min-height: 100vh;
+            background-image: url("assets/bg.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.188);
+            padding: 10px 5%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav img {
+            height: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+        }
+
+        .cards {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            width: 100%;
+        }
+
+        .discount-card {
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 500px;
+        }
+
+        .discount-card img {
+            padding: 60px 0 0 0;
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .discription-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 20px;
+
+        }
+
+        .description-card,
+        .login-card {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .description-card h1 {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            color: #680000;
+            margin-bottom: 10px;
+        }
+
+        .description-card h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #343a40;
+            text-align: end;
+            padding-right: 15px;
+        }
+
+        .description-card p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border: 2px solid #007bff;
+            border-radius: 20px;
+            backdrop-filter: blur(70px);
+            background-color: whitesmoke;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            height: auto;
+        }
+
+        form label {
+            display: block;
+            font-weight: 500;
+            color: #343a40;
+            font-size: 12px;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #343a40;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .button-container {
+            width: 100%;
+            display: flex;
+            justify-content: start;
+        }
+
+        form button {
+            display: flex;
+            padding: 5px 8px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .login-card p {
+            margin-top: 6px;
+            font-size: 10px;
+            text-align: start;
+        }
+
+        .login-link {
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            font-size: 12px;
+            text-decoration: none;
+            color: rgb(30, 0, 255);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <div class="nav">
+            <img src="" alt="logo">
+            <div class="nav-menu">
+                <a href="/ClientRegister">SignUp</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="cards">
+                <div class="discount-card">
+                    <img src="./assets/discount-card.png" alt="discount-card">
+                </div>
+
+                <div class="discription-container">
+                    <div class="description-card">
+                        <h1>Welcome to Hospital!</h1>
+                        <p>We are here to providing the best healthcare services to our patients. Please log in to
+                            access your medical records, book appointments, and more. Your health and well-being are our
+                            top priority.</p>
+                        <h2>- 24/7 Available</h2>
+                    </div>
+                    <div class="login-card">
+                        <form id="client-login" action="/api/client/ClientLogin" method="POST">
+
+                            <div class="row">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+
+                            <div class="row">
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+
+
+                            <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+
+                            <div class="buttons">
+                                <button type="submit">Login</button>
+                            </div>
+                            <div id="error-message" style="text-align: center;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('client-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            try {
+                const response = await fetch('/api/client/ClientLogin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('client-login').reset();
+
+                    errorMessage.textContent = result.message || 'Login Successfull.';
+                    errorMessage.style.color = 'green';
+                    window.location.href = `/client.html`;
+
+                    // window.location.href = `/admin.html?hospital=${result.adminData.hospital}`;
+                } else {
+                    errorMessage.textContent = result.message || 'Login Failed.';
+                    errorMessage.style.color = 'red';
+                }
+
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred';
+                errorMessage.style.color = 'red';
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

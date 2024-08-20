@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #444;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        .navbar a.logout-btn {
+            float: right;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters select,
+        .filters input {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        #clear-button {
+            padding: 0.5rem 1rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #total-count {
+            text-align: right;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Appointments</h1>
+    </header>
+    <div class="navbar">
+        <a href="#" class="back-btn">Appointments</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+    <div class="container">
+        <div class="filter-container">
+            <div class="filters">
+                <select id="hospital-select">
+                    <option value="">Select Hospital</option>
+                    <option value="hospital-A">Hospital-A</option>
+                    <option value="hospital-B">Hospital-B</option>
+                    <option value="hospital-C">Hospital-C</option>
+                    <option value="hospital-D">Hospital-D</option>
+                    <!-- Add more hospitals as needed -->
+                </select>
+                <select id="state-filter">
+                    <option value="">Filter by State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <!-- Add more states as needed -->
+                </select>
+                <select id="district-filter">
+                    <option value="">Filter by District</option>
+                    <!-- District options will be populated dynamically -->
+                </select>
+                <input type="date" id="date-filter">
+                <button id="clear-button">Clear Filters</button>
+            </div>
+            <div id="total-count">Total Hospital Appointments: <span id="total-count-number"  style="color: #dc3545; font-weight:700">0</span></div>
+        </div>
+        <h2>Appointments</h2>
+        <table id="appointments-table">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Department</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>District</th>
+                    <th>Hospital</th>
+                </tr>
+            </thead>
+            <tbody id="appointments-list">
+                <!-- Appointment data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hospitalSelect = document.getElementById('hospital-select');
+            const stateFilter = document.getElementById('state-filter');
+            const districtFilter = document.getElementById('district-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const clearButton = document.getElementById('clear-button');
+            const appointmentsList = document.getElementById('appointments-list');
+            const totalCountNumber = document.getElementById('total-count-number');
+        
+            const districtsByState = {
+                "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna"],
+                "Karnataka": ["Bangalore Urban", "Bangalore Rural", "Chikballapur", "Chitradurga", "Dakshina Kannada"],
+                "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Thane", "Nashik"]
+            };
+        
+            stateFilter.addEventListener('change', () => {
+                const state = stateFilter.value;
+                districtFilter.innerHTML = '<option value="">Filter by District</option>';
+                if (districtsByState[state]) {
+                    districtsByState[state].forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtFilter.appendChild(option);
+                    });
+                }
+            });
+        
+            const fetchAppointments = async () => {
+                const hospital = encodeURIComponent(hospitalSelect.value);
+                const state = encodeURIComponent(stateFilter.value);
+                const district = encodeURIComponent(districtFilter.value);
+                const date = encodeURIComponent(dateFilter.value);
+        
+                if (!hospital) {
+                    console.log('Hospital is empty or undefined');
+                    return;
+                }
+                
+                let url = `/api/admin/appointments?hospital=${hospital}`;
+                if (state) {
+                    url += `&state=${state}`;
+                }
+                if (district) {
+                    url += `&district=${district}`;
+                }
+                if (date) {
+                    url += `&date=${date}`;
+                }
+        
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        displayAppointments(data);
+                    } else {
+                        console.error('Failed to fetch appointments:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+        
+            const displayAppointments = (data) => {
+                appointmentsList.innerHTML = '';
+                data.forEach((appointment, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${appointment.name}</td>
+                        <td>${appointment.email}</td>
+                        <td>${new Date(appointment.date).toLocaleDateString()}</td>
+                        <td>${appointment.time}</td>
+                        <td>${appointment.department}</td>
+                        <td>${appointment.country}</td>
+                        <td>${appointment.state}</td>
+                        <td>${appointment.district}</td>
+                        <td>${appointment.hospital}</td>
+                    `;
+                    appointmentsList.appendChild(row);
+                });
+                totalCountNumber.textContent = data.length;
+            };
+        
+            const clearFilters = () => {
+                hospitalSelect.value = '';
+                stateFilter.value = '';
+                districtFilter.value = '';
+                dateFilter.value = '';
+                appointmentsList.innerHTML = '';
+                totalCountNumber.textContent = 0;
+                fetchAppointments();
+            };
+        
+            hospitalSelect.addEventListener('change', fetchAppointments);
+            stateFilter.addEventListener('change', fetchAppointments);
+            districtFilter.addEventListener('change', fetchAppointments);
+            dateFilter.addEventListener('change', fetchAppointments);
+            clearButton.addEventListener('click', clearFilters);
+        
+            // Initial fetch on page load
+            fetchAppointments();
+        });
+        
+</script> 
+</body>
+
+</html>
